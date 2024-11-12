@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arqamm.exe - Web Designer & Developer</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/ScrollTrigger.min.js"></script>
+    <style>
+        :root {
+            --primary-color: #23a6d5;
+            --text-color: #333333;
+            --bg-color: rgba(255, 255, 255, 0.9);
+            --card-bg: rgba(255, 255, 255, 0.8);
+            --accent-color: #e73c7e;
+            --secondary-color: #23d5ab;
+            --transition: all 0.3s ease-in-out;
+        }
+
+        .dark-mode {
+            --text-color: #f0f0f0;
+            --bg-color: rgba(51, 51, 51, 0.9);
+            --card-bg: rgba(68, 68, 68, 0.8);
+            --primary-color: #23d5ab;
+            --accent-color: #ee7752;
+            --secondary-color: #23a6d5;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            transition: background-color 0.3s, color 0.3s;
+            background: linear-gradient(120deg, var(--bg-color), var(--card-bg));
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        nav {
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        nav .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav h1 {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        nav ul {
+            display: flex;
+            list-style-type: none;
+        }
+
+        nav ul li {
+            margin-left: 1.5rem;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            transition: color 0.3s;
+        }
+
+        nav ul li a:hover,
+        nav ul li a.active {
+            color: var(--primary-color);
+        }
+
+        #dark-mode-toggle {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.2rem;
+            color: var(--text-color);
+        }
+
+        main {
+            padding-top: 80px;
+        }
+
+        section {
+            background-color: var(--bg-color);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem 0;
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            margin: 2rem 0;
+        }
+
+        .dark-mode section {
+            background-color: rgba(43, 45, 66, 0.8);
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn {
+            display: inline-block;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            color: #ffffff;
+            padding: 0.8rem 1.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            border: none;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .projects {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .project-card {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .project-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .project-card .content {
+            padding: 1.5rem;
+        }
+
+        .project-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+
+        #skills {
+            padding: 6rem 0;
+            background-color: var(--card-bg);
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .skill-card {
+            background-color: #fff;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .skill-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .skill-card i {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .dark-mode .skill-card {
+            background-color: var(--card-bg);
+        }
+
+        form {
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            text-align: left;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #d1d5db;
+            border-radius: 5px;
+            font-size: 1rem;
+            background-color: var(--card-bg);
+            color: var(--text-color);
+        }
+
+        footer {
+            background-color: rgba(255, 255, 255, 0.8);
+            color: var(--text-color);
+            text-align: center;
+            padding: 1rem 0;
+            backdrop-filter: blur(10px);
+        }
+
+        .dark-mode nav, .dark-mode footer {
+            background-color: rgba(34, 34, 59, 0.8);
+        }
+
+        @media (max-width: 768px) {
+            nav ul {
+                display: none;
+            }
+
+            nav ul.show {
+                display: flex;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background-color: var(--card-bg);
+                padding: 1rem 0;
+            }
+
+            nav ul.show li {
+                margin: 0.5rem 0;
+            }
+
+            .mobile-menu-toggle {
+                display: block;
+                background: none;
+                border: none;
+                font-size: 1.5rem;
+                color: var(--text-color);
+                cursor: pointer;
+            }
+        }
+
+        @media (min-width: 769px) {
+            .mobile-menu-toggle {
+                display: none;
+            }
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background-size: 400% 400%;
+            z-index: -1;
+            animation: gradientBG 15s ease infinite;
+        }
+
+        @keyframes gradientBG {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .project-card, .skill-icon {
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .project-card:hover, .skill-icon:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        nav, footer {
+            background-color: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+        }
+
+        .dark-mode nav, .dark-mode footer {
+            background-color: rgba(34, 34, 59, 0.8);
+        }
+
+        .about-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .about-image {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 2rem;
+            border: 4px solid var(--primary-color);
+        }
+
+        .about-text {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+.project-card :visited{
+    color: black;
+}
+        .social-links a {
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            transition: color 0.3s;
+        }
+
+        .social-links a:hover {
+            color: var(--accent-color);
+        }
+
+        .animated-text {
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="container">
+            <h1>Arqamm.exe</h1>
+            <ul id="nav-menu">
+                <li><a href="#home" class="active">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <button id="dark-mode-toggle"><i class="fas fa-moon"></i></button>
+            <button class="mobile-menu-toggle"><i class="fas fa-bars"></i></button>
+        </div>
+    </nav>
+
+    <main>
+        <section id="home">
+            <h2><span class="animated-text">Web Designer & Developer</span></h2>
+            <p><span class="animated-text">Crafting beautiful and functional digital experiences</span></p>
+            <a href="#projects" class="btn">View My Work</a>
+            <div class="scroll-indicator">
+                <i class="fas fa-chevron-down"></i>
+            </div>
+        </section>
+
+        <section id="about">
+            <h2><span class="animated-text">About Me</span></h2>
+            <div class="about-content">
+                <img src="images/profileimg.JPEG" alt="Jane Doe" class="about-image">
+                <div class="about-text">
+                    <p><span class="animated-text">Hello! I'm a passionate creative Designer with a keen eye for design and a love for clean, efficient code.
+
+                        My approach combines creativity with technical prowess, allowing me to transform complex ideas into user-friendly applications. When I'm not coding, you'll find me exploring new design trends, contributing to open-source projects, or sketching ideas for my next big project.</span></p>
+                    <p><span class="animated-text">My goal is to bring your digital vision to life, combining creativity with technical expertise to deliver outstanding results.</span></p>
+                </div>
+                <div class="social-links">
+                    <a href="##https://www.linkedin.com/in/muhammad-arqam-09792632a/" target="_blank"><i class="fab fa-linkedin"></i></a>
+                    <!-- <a href="#" target="_blank"><i class="fab fa-github"></i></a> -->
+                    <a href="#https://www.instagram.com/arqamm.exe/" target="_blank"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </section>
+
+        <section id="projects">
+            <h2><span class="animated-text">My Projects</span></h2>
+            <div class="projects">
+                <div class="project-card">
+                    <a href="https://arqammexe.github.io/Project01/">  
+                        <img src="images/Game Project.jpg" alt="Neon Racing">   
+                        <div class="content">
+                            <h3><span class="animated-text">Neon Racing</span></h3>
+                            <p><span class="animated-text">Neon Racer is a modern web application featuring a sleek, cyberpunk design with interactive game modes and smooth animations. It uses responsive layouts, CSS animations, and JavaScript for an engaging user experience.</span></p>
+                        </div></a>
+                </div>
+                <div class="project-card">
+                    <!-- <img src="https://via.placeholder.com/400x200" alt="Portfolio Template">
+                    <div  class="content">
+                        <h3><span class="animated-text">Portfolio Template</span></h3>
+                        <p><span class="animated-text">A customizable portfolio website template for creatives.</span></p>
+                    </div> -->
+                </div>
+                <div class="project-card">
+                    <!-- <img src="https://via.placeholder.com/400x200" alt="Task Management App">
+                    <div class="content">
+                        <h3><span class="animated-text">Task Management App</span></h3>
+                        <p><span class="animated-text">A feature-rich to-do list application with user authentication.</span></p>
+                    </div> -->
+                </div>
+            </div>
+        </section>
+
+        <section id="skills">
+            <div class="container">
+                <h2 class="section-title"><span class="animated-text">My Skills</span></h2>
+                <div class="skills-grid">
+                    <div class="skill-card">
+                        <i class="fas fa-code"></i>
+                        <h3><span class="animated-text">Web Development</span></h3>
+                        <p><span class="animated-text">HTML5, CSS3, JavaScript</span></p>
+                    </div>
+                    <div class="skill-card">
+                        <i class="fas fa-palette"></i>
+                        <h3><span class="animated-text">UI/UX Design</span></h3>
+                        <!-- <p><span class="animated-text">Figma, Adobe XD, Sketch</span></p> -->
+                    </div>
+                    <div class="skill-card">
+                        <i class="fas fa-mobile-alt"></i>
+                        <h3><span class="animated-text">Responsive Design</span></h3>
+                        <p><span class="animated-text">Mobile-First, Adaptive Layouts</span></p>
+                    </div>
+                    <!-- <div class="skill-card">
+                        <i class="fas fa-server"></i>
+                        <h3><span class="animated-text">Back-End Development</span></h3>
+                        <p><span class="animated-text">Node.js, Express, MongoDB</span></p>
+                    </div> -->
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" >
+            <h2><span class="animated-text">Contact Me</span></h2>
+            <form id="contact-form" action= "https://formspree.io/f/mrbgzkrv" method="POST">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea id="message" name="message" rows="4" required></textarea>
+                </div>
+                <button type="submit" class="btn">
+                    <span class="animated-text">Send Message</span>
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Arqammexe. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Dark mode toggle
+        const darkModeToggle = document.getElementById('dark-mode-toggle');
+        const body = document.body;
+
+        darkModeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+            const icon = darkModeToggle.querySelector('i');
+            icon.classList.toggle('fa-moon');
+            icon.classList.toggle('fa-sun');
+        });
+
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                const headerOffset = 80;
+                const elementPosition = target.getBoundingClientRect().top;
+                const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Active nav link
+        const sections = document.querySelectorAll('section');
+        const navLinks = document.querySelectorAll('nav ul li a');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (pageYOffset >= sectionTop - sectionHeight / 3) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').slice(1) === current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // Mobile menu toggle
+        const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+        const navMenu = document.getElementById('nav-menu');
+
+        mobileMenuToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('show');
+        });
+
+        // GSAP animations
+        gsap.registerPlugin(ScrollTrigger);
+        gsap.config({autoSleep: 60, force3D: true});
+
+        // Navbar animation
+        gsap.from('nav', { 
+            y: -100, 
+            opacity: 0, 
+            duration: 0.5,
+            ease: 'power3.out'
+        });
+
+        // Scroll indicator animation
+        gsap.to('.scroll-indicator', {
+            y: 10,
+            repeat: -1,
+            yoyo: true,
+            duration: 0.8
+        });
+
+        // Animated text reveal
+        gsap.utils.toArray('.animated-text').forEach(text => {
+            gsap.from(text, {
+                scrollTrigger: {
+                    trigger: text,
+                    start: 'top 100%',
+                    end: 'bottom 20%',
+                    toggleActions: 'play none none none'
+                },
+                opacity: 0,
+                y: 10,
+                duration: 0.3,
+                ease: 'power3.out'
+            });
+        });
+
+        // Section animations
+        gsap.utils.toArray('section').forEach(section => {
+            gsap.from(section, {
+                scrollTrigger: {
+                    trigger: section,
+                    start: 'top 100%',
+                    end: 'bottom 20%',
+                    toggleActions: 'play none none none'
+                },
+                opacity: 0,
+                y: 50,
+                duration: 0.3,
+                ease: 'power3.out'
+            });
+        });
+
+
+        // Form animation
+        gsap.from('#contact form', {
+            scrollTrigger: {
+                trigger: '#contact form',
+                start: 'top 100%',
+                end: 'bottom 20%',
+                toggleActions: 'play none none none'
+            },
+            opacity: 0,
+            y: 50,
+            duration: 0.3,
+            ease: 'power3.out'
+        });
+
+        
+
+    </script>
+</body>
+</html>
